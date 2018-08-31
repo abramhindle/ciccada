@@ -89,6 +89,8 @@ function getData() {
   source = audioCtx.createBufferSource();
   request = new XMLHttpRequest();
   var n = Math.floor((Math.random() * 16) + 1);
+  var obj = document.createElement('video');
+  var ext = (obj.canPlayType('audio/ogg'))?".ogg":".mp3";
   request.open('GET', 'sounds/ciccadas-'+('00'+n).slice(-2)+'.ogg', true);
 
   request.responseType = 'arraybuffer';
