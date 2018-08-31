@@ -19,9 +19,22 @@
             background: url('images/cicc01.jpg');
             background-repeat: repeat-x;
             background-size: cover;
+            height: 97vh;
+            width: 97vw;
         }
-        h1,h2,span {
-            background: white;
+        h1,h2,span,input {
+            background: rgba(255,255,255,0.5);
+        }
+        button {
+            padding: 1em 1em 1em 1em;
+        }
+        .stop {
+            background: rgba(255,0,0,0.5);
+            color: black;
+        }
+        .play {
+            background: rgba(0,255,0,0.5);
+            color: black;
         }
     </style>
   </head>
@@ -32,15 +45,15 @@
     <button class="stop wide">Stop</button><br/>
 
     <h2>Set playback rate</h2>
-    <input class="playback-rate-control wide" type="range" min="0.25" max="3" step="0.01" value="1"><br/>
     <span  class="playback-rate-value">1.0</span>
+    <input class="playback-rate-control wide" type="range" min="0.25" max="3" step="0.01" value="1"><br/>
 
     <h2>Set loop start and loop end</h2>
-    <input class="loopstart-control wide" type="range" min="0" max="20" step="0.01" value="0"><br/>
     <span  class="loopstart-value">0</span>
+    <input class="loopstart-control wide" type="range" min="0" max="20" step="0.01" value="0.0"><br/>
     <br/>
-    <input class="loopend-control wide" type="range" min="0" max="20" step="0.01" value="0"><br/>
     <span class="loopend-value">0</span>
+    <input class="loopend-control wide" type="range" min="0" max="20" step="0.01" value="0.0"><br/>
 
   </body>
 <script>
