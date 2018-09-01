@@ -100,7 +100,9 @@ function getData() {
   var n = Math.floor((Math.random() * 27) + 1);
   var obj = document.createElement('video');
   var ext = (obj.canPlayType('audio/ogg'))?".ogg":".mp3";
-  request.open('GET', 'sounds/ciccadas-'+('00'+n).slice(-2)+'.ogg', true);
+  var path = 'sounds/ciccadas-'+('00'+n).slice(-2)+ext;
+  console.log(path);
+  request.open('GET', path, true);
 
   request.responseType = 'arraybuffer';
 
