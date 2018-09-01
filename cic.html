@@ -133,10 +133,11 @@ function getData() {
 // wire up buttons to stop and play audio, and range slider control
 
 play.onclick = function() {
-  if (audioCtx == undefined) {
+  if (audioCtx === undefined) {
       // Fix iOS Audio Context by Blake Kus https://gist.github.com/kus/3f01d60569eeadefe3a1
       // MIT license
       audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      audioCtx.resume();
       // prime the pump!
       var buffer  = audioCtx.createBuffer(1, 1, 22050);
       var silence = audioCtx.createBufferSource();
