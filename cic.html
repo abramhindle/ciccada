@@ -72,107 +72,10 @@
 
 // define variables
 
-var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+var audioCtx = undefined;
 var source;
 var songLength;
 
-// Fix iOS Audio Context by Blake Kus https://gist.github.com/kus/3f01d60569eeadefe3a1
-// MIT license
-
-(function() {
-	window.AudioContext = window.AudioContext || window.webkitAudioContext;
-	if (window.AudioContext) {
-		window.audioContext = new window.AudioContext();
-	}
-	var fixAudioContext = function (e) {
-		if (window.audioContext) {
-			// Create empty buffer
-			var buffer = window.audioContext.createBuffer(1, 1, 22050);
-			var source = window.audioContext.createBufferSource();
-			source.buffer = buffer;
-			// Connect to output (speakers)
-			source.connect(window.audioContext.destination);
-			// Play sound
-			if (source.start) {
-				source.start(0);
-			} else if (source.play) {
-				source.play(0);
-			} else if (source.noteOn) {
-				source.noteOn(0);
-			}
-		}
-		// Remove events
-		document.removeEventListener('touchstart', fixAudioContext);
-		document.removeEventListener('touchend', fixAudioContext);
-	};
-	// iOS 6-8
-	document.addEventListener('touchstart', fixAudioContext);
-	// iOS 9
-	document.addEventListener('touchend', fixAudioContext);
-})();
-
-
-// This section is licensed under:
-
-// MIT License
-// 
-// Copyright (c) 2017 Pavle Goloskoković
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-// 
-function webAudioTouchUnlock(context) {
-    return new Promise(function (resolve, reject) {
-        if (!context || !(context instanceof (window.AudioContext || window.webkitAudioContext))) {
-            reject('WebAudioTouchUnlock: You need to pass an instance of AudioContext to this method call');
-            return;
-        }
-        if (context.state === 'suspended' && 'ontouchstart' in window) {
-            var unlock_1 = function () {
-                context.resume().then(function () {
-                    document.body.removeEventListener('touchend', unlock_1);
-                    document.body.removeEventListener('touchstart', unlock_1);
-                    resolve(true);
-                }, function (reason) {
-                    reject(reason);
-                });
-            };
-            document.body.addEventListener('touchstart', unlock_1, false);
-            document.body.addEventListener('touchend', unlock_1, false);
-        }
-        else {
-            resolve(false);
-        }
-    });
-}
-
-webAudioTouchUnlock(audioCtx)
-    .then(function (unlocked) {
-        if(unlocked) {
-            // AudioContext was unlocked from an explicit user action, sound should start playing now
-        } else {
-            // There was no need for unlocking, devices other than iOS
-        }
-    }, function(reason) {
-        console.error(reason);
-    });
-
-// END MIT
 
 var play = document.querySelector('.play');
 var stop = document.querySelector('.stop');
@@ -230,6 +133,26 @@ function getData() {
 // wire up buttons to stop and play audio, and range slider control
 
 play.onclick = function() {
+  if (audioCtx == undefined) {
+      // Fix iOS Audio Context by Blake Kus https://gist.github.com/kus/3f01d60569eeadefe3a1
+      // MIT license
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      // prime the pump!
+      var buffer  = audioCtx.createBuffer(1, 1, 22050);
+      var silence = audioCtx.createBufferSource();
+      silence.buffer = buffer;
+      // Connect to output (speakers)
+      silence.connect(audioCtx.destination);
+      // Play sound
+      if (silence.start) {
+  	silence.start(0);
+      } else if (silence.play) {
+  	silence.play(0);
+      } else if (silence.noteOn) {
+  	silence.noteOn(0);
+      }
+  }
+    
   getData();
   play.setAttribute('disabled', 'disabled');
   playbackControl.removeAttribute('disabled');
