@@ -95,9 +95,6 @@ loopendControl.setAttribute('disabled', 'disabled');
 // Then we put the buffer into the source
 
 function getData() {
-  if (audioCtx === undefined) {
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  };
   source = audioCtx.createBufferSource();
   request = new XMLHttpRequest();
   var n = Math.floor((Math.random() * 27) + 1);
@@ -134,6 +131,9 @@ function getData() {
 // wire up buttons to stop and play audio, and range slider control
 
 play.onclick = function() {
+  if (audioCtx === undefined) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  };
   getData();
   play.setAttribute('disabled', 'disabled');
   playbackControl.removeAttribute('disabled');
