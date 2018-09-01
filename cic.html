@@ -134,6 +134,7 @@ play.onclick = function() {
   if (audioCtx === undefined) {
       audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   };
+  audioCtx.resume();
   getData();
   play.setAttribute('disabled', 'disabled');
   playbackControl.removeAttribute('disabled');
