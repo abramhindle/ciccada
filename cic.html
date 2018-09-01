@@ -101,9 +101,7 @@ function getData() {
   var obj = document.createElement('video');
   var ext = (obj.canPlayType('audio/ogg'))?".ogg":".mp3";
   var path = 'sounds/ciccadas-'+('00'+n).slice(-2)+ext;
-  console.log(path);
   request.open('GET', path, true);
-
   request.responseType = 'arraybuffer';
 
 
@@ -122,7 +120,7 @@ function getData() {
         loopendControl.setAttribute('max', Math.floor(songLength));
       },
 
-      function(e){"Error with decoding audio data" + e.error});
+      function(e){"Error with decoding audio data" + e.error + "\n" + path});
 
   }
 
