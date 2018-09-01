@@ -13,7 +13,11 @@
     <![endif]-->
     <style>
         .wide {
-            width: 100%;
+            width: 97%;
+        }
+        .thick {
+            padding-top: 1.5em;
+            padding-bottom: 1.5em;
         }
         body {
             background: url('images/cicc01.jpg');
@@ -21,10 +25,15 @@
             background-size: cover;
             height: 97vh;
             width: 97vw;
-            overflow: hidden;
         }
         h1,h2,span,input {
             background: rgba(255,255,255,0.5);
+        }
+        span {
+            min-width: 3em;
+            display: block;
+            float: left;
+            width: 3em;
         }
         button {
             padding: 1em 1em 1em 1em;
@@ -47,14 +56,14 @@
 
     <h2>Set playback rate</h2>
     <span  class="playback-rate-value">1.0</span>
-    <input class="playback-rate-control wide" type="range" min="0.25" max="3" step="0.01" value="1"><br/>
+    <input class="playback-rate-control wide thick" type="range" min="0.25" max="3" step="0.01" value="1"><br/>
 
     <h2>Set loop start and loop end</h2>
     <span  class="loopstart-value">0</span>
-    <input class="loopstart-control wide" type="range" min="0" max="20" step="0.01" value="0.0"><br/>
+    <input class="loopstart-control wide thick" type="range" min="0" max="20" step="0.01" value="0.0"><br/>
     <br/>
     <span class="loopend-value">0</span>
-    <input class="loopend-control wide" type="range" min="0" max="20" step="0.01" value="0.0"><br/>
+    <input class="loopend-control wide thick" type="range" min="0" max="20" step="0.01" value="0.0"><br/>
 
   </body>
 <script>
@@ -88,7 +97,7 @@ loopendControl.setAttribute('disabled', 'disabled');
 function getData() {
   source = audioCtx.createBufferSource();
   request = new XMLHttpRequest();
-  var n = Math.floor((Math.random() * 16) + 1);
+  var n = Math.floor((Math.random() * 27) + 1);
   var obj = document.createElement('video');
   var ext = (obj.canPlayType('audio/ogg'))?".ogg":".mp3";
   request.open('GET', 'sounds/ciccadas-'+('00'+n).slice(-2)+'.ogg', true);
