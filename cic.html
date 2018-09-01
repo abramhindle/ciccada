@@ -121,6 +121,7 @@ function getData() {
 
         loopstartControl.setAttribute('max', Math.floor(songLength));
         loopendControl.setAttribute('max', Math.floor(songLength));
+        source.start(0);
       },
 
       function(e){"Error with decoding audio data" + e.error + "\n" + path});
@@ -134,7 +135,6 @@ function getData() {
 
 play.onclick = function() {
   getData();
-  source.start(0);
   play.setAttribute('disabled', 'disabled');
   playbackControl.removeAttribute('disabled');
   loopstartControl.removeAttribute('disabled');
