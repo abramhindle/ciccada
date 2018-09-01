@@ -71,7 +71,7 @@
 
 // define variables
 
-var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+var audioCtx = undefined; 
 var source;
 var songLength;
 
@@ -95,6 +95,9 @@ loopendControl.setAttribute('disabled', 'disabled');
 // Then we put the buffer into the source
 
 function getData() {
+  if (audioCtx === undefined) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  };
   source = audioCtx.createBufferSource();
   request = new XMLHttpRequest();
   var n = Math.floor((Math.random() * 27) + 1);
